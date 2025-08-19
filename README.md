@@ -79,3 +79,27 @@
 * DI (의존성 주입): 서비스 객체가 자신이 의존하는 리포지토리 객체의 구현체를 직접 생성하지 않고, 외부에서 전달받아 사용하는 설계 방식
 * 리포지토리는 데이터 접근(저장, 조회)에 집중
 * 서비스 계층은 리포지토리를 활용하려 비즈니스 로직을 수행
+
+# Section 4. 스프링 빈과 의존관계
+* 컨트롤러의 생성자에 @Autowired를 사용하면 스프링이 연관된 객체를 스프링 컨테이너에서 찾아서 넣어준다. 이를 DI(의존성 주입)이라고 한다
+* @Component 애노테이션이 있으면 스프링 빈으로 자동 등록됨. 이때 패키지에 포함되지 않은 파일들은 등록되지 않는다
+* 스프링에서는 스프링 컨테이너에 스프링 빈을 등록할 때 대부분 싱글톤으로 등록한다
+* 애노테이션이 아닌 자바로 직접 스프링 빈을 등록할 수 있다
+```java
+public class SpringConfig {
+    
+    @Bean
+    public MemberService memberService() {
+        return new MemberService(memberRepository());
+    }
+    
+    @Bean
+    public MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
+}
+```
+* 하지만 Controller는 어쩔 수 없이 @Autowired를 사용해야 한다
+* 의존관계가 실행중에 동적으로 변하는 경우는 없으므로 생성자 주입을 사용해야 한다
+* 직접 자바로 연결하려 Config 파일을 운용하는 경우 적은 코드 변경으로 관리할 수 있다
+* 
