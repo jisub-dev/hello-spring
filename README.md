@@ -62,4 +62,20 @@
 * Getter와 Setter를 사용하여 자원을 사용하는 방식을 Java Bean 방식이라고 한다
 * Spring 에서 객체가 오면 기본적으로 JSON 방식을 사용해서 반환하는 정책이 적용되어 있음
 * Spring은 단순 문자면 StringConverter(StringHttpMessageConverter)을 사용해 변환, 객체면 JsonConverter(MappingJackson2HttpMessageConverter)을 사용해 변환한다. 이 둘이 아니더라도 다른 converter가 기본적으로 등록되어 있다. 이를 웹 브라우저에 반환한다
-* 
+
+# Section 3. 회원 관리 예제 - 백엔드 개발 
+* 만약 store.get(id)가 null을 반환할 가능성이 있다면 Optional.ifNullable(store.get(id)) 처럼 감싸면 null값도 반환할 수 있게 된다
+* 자바 실무에서는 루프를 돌리기 편하므로 리스트를 많이 사용함
+* Assertions.assertThat(비교대상1).isEqualsTo(비교대상2) 이렇게 테스트를 수행한다
+* 테스트 코드를 여러개 만들면 서로 테스트에 간섭할 수 있으므로 @AfterEach를 사용하여 매 테스트마다 저장소를 비워줘야 서로의 테스트에 영향을 끼치지 않는다
+* 테스트 코드 없이 개발은 거의 불가능하다. 규모가 커질수록 문제가 정말 많아지기 때문이다
+* Optional 을 사용하면 객체를 한번 더 감싸기 때문에 예외를 판별하기 용이하다
+* Service는 비즈니스에 맞춰서 네이밍 함
+* 테스트는 과감하게 한글로 적어도 됨 (영어권과 협업하는게 아니라면 자주 씀)
+* given-when-then 기법을 추천함. 주로 이렇게 구성됨
+* 테스트는 예외가 발생하는것을 테스트 케이스로 만드는 것이 중요함
+* @BeforeEach: 매 테스트 전 실행. 강의에선 Service, Repository 생성 시 사용
+* @AfterEach: 매 테스트 후 실행. 강의에선 메모리를 지워줄 때 사용
+* DI (의존성 주입): 서비스 객체가 자신이 의존하는 리포지토리 객체의 구현체를 직접 생성하지 않고, 외부에서 전달받아 사용하는 설계 방식
+* 리포지토리는 데이터 접근(저장, 조회)에 집중
+* 서비스 계층은 리포지토리를 활용하려 비즈니스 로직을 수행
